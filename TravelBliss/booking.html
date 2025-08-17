@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Booking</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Travel Bliss</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="destinations.html">Destinations</a>
+      <a href="booking.html">Booking</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="booking-section">
+      <h2>Book Your Trip</h2>
+      <form>
+        <label>Full Name:</label>
+        <input type="text" name="name" required />
+
+        <label>Email Address:</label>
+        <input type="email" name="email" required />
+
+        <label>Phone Number:</label>
+        <input type="tel" name="phone" pattern="[0-9]{10}" required />
+
+        <label>Departure City:</label>
+        <input type="text" name="departure" required />
+
+        <label>Destination:</label>
+        <select name="destination" required>
+          <option value="">Select</option>
+          <option value="paris">Paris</option>
+          <option value="bali">Bali</option>
+          <option value="tokyo">Tokyo</option>
+          <option value="rome">Rome</option>
+        </select>
+
+        <label>Departure Date:</label>
+        <input type="date" name="depart_date" required />
+
+        <label>Return Date:</label>
+        <input type="date" name="return_date" required />
+
+        <label>Number of Travelers:</label>
+        <input type="number" name="travelers" min="1" required />
+
+        <label>Travel Purpose:</label>
+        <select name="purpose" required>
+          <option value="">Select</option>
+          <option value="leisure">Leisure</option>
+          <option value="business">Business</option>
+          <option value="honeymoon">Honeymoon</option>
+          <option value="family">Family Trip</option>
+        </select>
+
+        <label>Accommodation Preference:</label>
+        <select name="accommodation" required>
+          <option value="">Select</option>
+          <option value="hotel">Hotel</option>
+          <option value="hostel">Hostel</option>
+          <option value="resort">Resort</option>
+          <option value="apartment">Apartment</option>
+        </select>
+
+        <fieldset>
+          <legend>Extras</legend>
+          <label><input type="checkbox" name="extras" value="guide" /> Tour Guide</label>
+          <label><input type="checkbox" name="extras" value="meals" /> Meals Included</label>
+          <label><input type="checkbox" name="extras" value="insurance" /> Travel Insurance</label>
+          <label><input type="checkbox" name="extras" value="pickup" /> Airport Pickup</label>
+        </fieldset>
+
+        <label>Special Requirements:</label>
+        <textarea name="requirements" rows="4" placeholder="Any dietary needs, accessibility, etc."></textarea>
+
+        <button type="submit">Submit Booking</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Travel Bliss</p>
+  </footer>
+</body>
+</html>
