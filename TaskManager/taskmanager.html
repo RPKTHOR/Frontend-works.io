@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <title>Task Manager with Folders</title>
+  <style>
+   body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.folder-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  transition: box-shadow 0.2s ease;
+}
+
+.folder-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.folder-card h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 6px;
+}
+
+.folder-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.folder-card li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.task-name.completed {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+button {
+  transition: background-color 0.2s ease;
+}
+
+.btn-dark:hover {
+  background-color: #333;
+}
+
+.btn-sm {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+
+  </style>
+</head>
+<body>
+<body class="bg-light">
+  <div class="container py-4">
+    <h1 class="text-center mb-4">📂 Task Manager</h1>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-md-6 d-flex gap-2">
+        <input type="text" id="taskInput" class="form-control" placeholder="Enter a task" />
+        <select id="folderSelect" class="form-select w-auto">
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Shopping">Shopping</option>
+        </select>
+        <button onclick="addTask()" class="btn btn-success">Add</button>
+      </div>
+    </div>
+
+    <div id="foldersContainer" class="row gy-4"></div>
+  </div>
+</body>
+
+
+  <script>
+    let folders = {
+  Work: [],
+  Personal: [],
+  Shopping: []
+};
+
+function addTask() {
+  const taskText = document.getElementById("taskInput").value.trim();
+  const folderName = document.getElementById("folderSelect").value;
+
+  if (taskText === "") return;
+
+  folders[folderName].push({ text: taskText, completed: false });
+  document.getElementById("taskInput").value = "";
+  renderFolders();
+}
+
+function toggleTask(folder, index) {
+  folders[folder][index].completed = !folders[folder][index].completed;
+  renderFolders();
+}
+
+function deleteTask(folder, index) {
+  folders[folder].splice(index, 1);
+  renderFolders();
+}
+
+function renderFolders() {
+  const container = document.getElementById("foldersContainer");
+  container.innerHTML = "";
+
+  Object.keys(folders).forEach(folderName => {
+    const card = document.createElement("div");
+    card.className = "folder-card";
+    card.innerHTML = `<h3>${folderName}</h3><ul id="${folderName}-list"></ul>`;
+    container.appendChild(card);
+
+    folders[folderName].forEach((task, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="task-name ${task.completed ? 'completed' : ''}">${task.text}</span>
+        <button onclick="toggleTask('${folderName}', ${index})" class="toggle-btn">
+          ${task.completed ? 'Undo' : 'Done'}
+        </button>
+        <button onclick="deleteTask('${folderName}', ${index})" class="delete-btn">Delete</button>
+      `;
+      document.getElementById(`${folderName}-list`).appendChild(li);
+    });
+  });
+}
+
+renderFolders();
+  </script>
+</body>
+</html>
