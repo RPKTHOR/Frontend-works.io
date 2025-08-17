@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard | PMS</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success px-4">
+    <a class="navbar-brand fw-bold" href="#">🛒 PMS User</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="dashboard.html">Product List</a></li>
+        <li class="nav-item"><a class="nav-link" href="checkout.html">Checkout</a></li>
+        <li class="nav-item"><a class="nav-link text-warning" href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Product List -->
+  <div class="container mt-5">
+    <h2 class="mb-4 text-center">Browse Products</h2>
+    <div id="productContainer" class="row g-4"></div>
+  </div>
+
+  <script>
+    const API = "http://localhost:3000/products";
+
+    function loadProducts() {
+      fetch(API)
+        .then(res => res.json())
+        .then(data => {
+          const container = document.getElementById("productContainer");
+          container.innerHTML = data.map(p => `
+            <div class="col-md-4">
+              <div class="card h-100">
+                <img src="${p.image}" class="card-img-top" style="height: 200px; object-fit: cover;" />
+                <div class="card-body">
+                  <h5 class="card-title">${p.name}</h5>
+                  <p class="card-text">${p.description}</p>
+                  <p class="fw-bold">₹${p.price}</p>
+                  <button class="btn btn-sm btn-success" onclick="addToCart(${p.id})">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          `).join("");
+        });
+    }
+
+    function addToCart(id) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(id);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("Product added to cart.");
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("cart");
+      window.location.href = "../login.html";
+    }
+
+    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (!user || user.role !== "user") {
+      alert("Access denied.");
+      window.location.href = "../login.html";
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
